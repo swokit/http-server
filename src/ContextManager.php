@@ -8,7 +8,7 @@
 
 namespace SwooleLib\Http;
 
-use Sws\Coroutine\Coroutine;
+use SwooleLib\Util\Coroutine;
 
 /**
  * Class ContextManager
