@@ -1,27 +1,40 @@
 <?php
 /**
- * phpunit
+ * Created by PhpStorm.
+ * User: inhere
+ * Date: 2017/5/28
+ * Time: 下午10:36
  */
 
-error_reporting(E_ALL);
 ini_set('display_errors', 'On');
+error_reporting(E_ALL | E_STRICT);
 date_default_timezone_set('Asia/Shanghai');
 
-spl_autoload_register(function ($class) {
-    $file = null;
+$inhereDir = dirname(__DIR__, 2);
+$map = [
+	'SwooleLib\Http\Test\\' => __DIR__,
+	'SwooleLib\Http\\' => dirname(__DIR__) . '/src',
+];
 
-    if (0 === strpos($class,'SwooleLib\Http\Example\\')) {
-        $path = str_replace('\\', '/', substr($class, strlen('SwooleLib\Http\Example\\')));
-        $file = dirname(__DIR__) . "/example/{$path}.php";
-    } elseif (0 === strpos($class,'SwooleLib\Http\Test\\')) {
-        $path = str_replace('\\', '/', substr($class, strlen('SwooleLib\Http\Test\\')));
-        $file = __DIR__ . "/{$path}.php";
-    } elseif (0 === strpos($class,'SwooleLib\Http\\')) {
-        $path = str_replace('\\', '/', substr($class, strlen('SwooleLib\Http\\')));
-        $file = dirname(__DIR__) . "/src/{$path}.php";
-    }
+spl_autoload_register(function ($class) use ($map) {
+	foreach ($map as $np => $dir) {
+		if (0 === strpos($class, $np)) {
+			$path = str_replace('\\', '/', substr($class, strlen($np)));
+			$file = $dir . "/{$path}.php";
 
-    if ($file && is_file($file)) {
-        include $file;
-    }
+			if (is_file($file)) {
+				include_file($file);
+			}
+		}
+	}
 });
+
+if (file_exists($file = dirname(__DIR__, 3) . '/autoload.php')) {
+    require $file;
+} elseif (file_exists($file = dirname(__DIR__) . '/vendor/autoload.php')) {
+    require $file;
+}
+
+function include_file($file) {
+	include $file;
+}

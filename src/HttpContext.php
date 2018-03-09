@@ -54,7 +54,7 @@ class HttpContext extends AbstractContext
 
         parent::__construct();
 
-        \Sws::getCtxManager()->add($this);
+        // \Sws::getCtxManager()->add($this);
     }
 
     protected function init()
@@ -70,8 +70,7 @@ class HttpContext extends AbstractContext
      */
     public function destroy()
     {
-        \Sws::getCtxManager()->del($this->getId());
-
+        // \Sws::getCtxManager()->del($this->getId());
         parent::destroy();
     }
 
