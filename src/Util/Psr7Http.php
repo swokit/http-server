@@ -6,7 +6,7 @@
  * Time: 15:25
  */
 
-namespace SwooleLib\Http\Util;
+namespace SwooleKit\Http\Server\Util;
 
 use Inhere\Http\ServerRequest;
 use Inhere\Http\Response;
@@ -19,7 +19,7 @@ use Swoole\Http\Request as SwRequest;
 
 /**
  * Class Psr7Http
- * @package SwooleLib\Http\Util
+ * @package SwooleKit\Http\Server\Util
  */
 class Psr7Http
 {

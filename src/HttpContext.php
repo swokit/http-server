@@ -6,7 +6,7 @@
  * Time: 15:16
  */
 
-namespace SwooleLib\Http;
+namespace SwooleKit\Http\Server;
 
 use Swoole\Http\Request as SwRequest;
 use Swoole\Http\Response as SwResponse;
@@ -15,7 +15,7 @@ use Sws\Coroutine\Coroutine;
 
 /**
  * Class HttpContext
- * @package SwooleLib\Http;
+ * @package SwooleKit\Http\Server;
  */
 class HttpContext extends AbstractContext
 {

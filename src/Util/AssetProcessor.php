@@ -6,14 +6,14 @@
  * Time: 9:29
  */
 
-namespace SwooleLib\Http\Util;
+namespace SwooleKit\Http\Server\Util;
 
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
 /**
  * Class StaticResourceProcessor - Static resource processing
- * @package SwooleLib\Http\Util
+ * @package SwooleKit\Http\Server\Util
  */
 class AssetProcessor
 {

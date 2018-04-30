@@ -1,9 +1,9 @@
 {
-  "name": "swoole-libs/http-server",
+  "name": "swoole-kit/http-server",
   "type": "library",
   "description": "some http server tool library of the swoole",
   "keywords": ["library","tool","php"],
-  "homepage": "https://github.com/swoole-libs/http-server",
+  "homepage": "https://github.com/swoole-kit/http-server",
   "license": "MIT",
   "authors": [
     {
@@ -16,11 +16,11 @@
     "php": ">7.0.0",
     "inhere/http": "^1.0",
     "inhere/server": "dev-master",
-    "swoole-libs/context": "~1.0"
+    "swoole-kit/context": "~1.0"
   },
   "autoload": {
     "psr-4": {
-      "SwooleLib\\Http\\" : "src/"
+      "SwooleKit\\Http\\Server" : "src/"
     }
   },
   "suggest": {
