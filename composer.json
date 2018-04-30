@@ -20,7 +20,7 @@
   },
   "autoload": {
     "psr-4": {
-      "SwooleKit\\Http\\Server" : "src/"
+      "SwooleKit\\Http\\Server\\" : "src/"
     }
   },
   "suggest": {
