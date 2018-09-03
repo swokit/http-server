@@ -11,9 +11,8 @@ namespace SwooleKit\Http\Server;
 use Inhere\Console\Utils\Show;
 use Inhere\Library\Traits\OptionsTrait;
 use SwooleKit\Http\Server\Util\AssetProcessor;
-use Inhere\Server\HttpServerInterface;
 use Inhere\Server\Server;
-use Inhere\Server\Traits\HttpServerTrait;
+// use Inhere\Server\Traits\HttpServerTrait;
 
 use Psr\Log\LogLevel;
 use Swoole\Http\Request;
@@ -49,9 +48,9 @@ http config:
  * Class HttpServerHandler
  * @package Inhere\Server\handlers
  */
-abstract class HttpServer extends Server
+abstract class HttpServer extends Server implements HttpServerInterface
 {
-    use HttpServerTrait, OptionsTrait;
+    use OptionsTrait;
 
     /**
      * handle static file access.
@@ -63,7 +62,6 @@ abstract class HttpServer extends Server
      * @var array
      */
     protected $options = [
-        'startSession' => false,
         'ignoreFavicon' => false,
 
         // @link https://wiki.swoole.com/wiki/page/410.html
@@ -79,21 +77,6 @@ abstract class HttpServer extends Server
                 '/assets' => 'web/assets',
                 '/uploads' => 'web/uploads'
             ]
-        ],
-
-        // @link http://php.net/manual/zh/session.configuration.php
-        'session' => [
-            'save_path' => '', // app_session
-            'name' => 'php_session', // app_session
-
-            // 设置 cookie 的有效时间为 30 minute
-            'cookie_lifetime' => 1800,
-            'cookie_domain' => '',
-            'cookie_path' => '/',
-            'cookie_secure' => false,
-            'cookie_httponly' => false,
-
-            'cache_expire' => 1800,
         ],
     ];
 
@@ -170,7 +153,7 @@ abstract class HttpServer extends Server
         }
 
         // handle the Dynamic Request
-        $this->handleHttpRequest($request, $response);
+        $this->handleRequest($request, $response);
 
         // end
         $endTime = microtime(true);
@@ -192,12 +175,6 @@ abstract class HttpServer extends Server
      */
     protected function afterRequest(Request $request, Response $response)
     {}
-
-    /**
-     * @param Request $request
-     * @param Response $response
-     */
-    abstract protected function handleHttpRequest(Request $request, Response $response);
 
     /**
      * @param Response $response
