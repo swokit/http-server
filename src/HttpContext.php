@@ -6,20 +6,20 @@
  * Time: 15:16
  */
 
-namespace SwooleKit\Http\Server;
+namespace SwoKit\Http\Server;
 
 use Inhere\Http\Request;
 use Inhere\Http\Response;
 use Swoole\Http\Request as SwRequest;
 use Swoole\Http\Response as SwResponse;
 
-use SwooleKit\Context\AbstractContext;
-use SwooleKit\Http\Server\Util\Psr7Http;
-use SwooleKit\Util\Coroutine;
+use SwoKit\Context\AbstractContext;
+use SwoKit\Http\Server\Util\Psr7Http;
+use SwoKit\Util\Coroutine;
 
 /**
  * Class HttpContext
- * @package SwooleKit\Http\Server;
+ * @package SwoKit\Http\Server;
  */
 class HttpContext extends AbstractContext
 {

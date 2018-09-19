@@ -6,11 +6,11 @@
  * Time: 16:04
  */
 
-namespace SwooleKit\Http\Server;
+namespace SwoKit\Http\Server;
 
 use Inhere\Console\Utils\Show;
 use Inhere\Library\Traits\OptionsTrait;
-use SwooleKit\Http\Server\Util\AssetProcessor;
+use SwoKit\Http\Server\Util\AssetProcessor;
 use Inhere\Server\Server;
 // use Inhere\Server\Traits\HttpServerTrait;
 

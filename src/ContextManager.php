@@ -6,15 +6,15 @@
  * Time: 11:03
  */
 
-namespace SwooleKit\Http\Server;
+namespace SwoKit\Http\Server;
 
-use SwooleKit\Util\Coroutine;
+use SwoKit\Util\Coroutine;
 
 /**
  * Class ContextManager
- * @package SwooleKit\Http\Server
+ * @package SwoKit\Http\Server
  */
-class ContextManager extends \SwooleKit\Context\ContextManager
+class ContextManager extends \SwoKit\Context\ContextManager
 {
     /**
      * @return int|string

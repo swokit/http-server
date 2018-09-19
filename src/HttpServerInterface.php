@@ -6,14 +6,14 @@
  * Time: 下午4:59
  */
 
-namespace SwooleKit\Http\Server;
+namespace SwoKit\Http\Server;
 
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
 /**
  * Interface HttpServerInterface
- * @package SwooleKit\Http\Server
+ * @package SwoKit\Http\Server
  */
 interface HttpServerInterface
 {

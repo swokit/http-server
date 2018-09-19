@@ -6,7 +6,7 @@
  * Time: 9:21
  */
 
-namespace SwooleKit\Http\Server\Util;
+namespace SwoKit\Http\Server\Util;
 
 use Inhere\Library\Files\Directory;
 use Inhere\Library\Traits\LiteOptionsTrait;
@@ -15,7 +15,7 @@ use Swoole\Http\Response;
 
 /**
  * Class PhpSession
- * @package SwooleKit\Http\Server\Util
+ * @package SwoKit\Http\Server\Util
  */
 class PhpSession
 {
