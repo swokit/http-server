@@ -6,20 +6,19 @@
  * Time: 15:25
  */
 
-namespace SwoKit\Http\Server\Util;
+namespace Swokit\Http\Server\Util;
 
-use Inhere\Http\ServerRequest;
 use Inhere\Http\Response;
+use Inhere\Http\ServerRequest;
 use Inhere\Http\UploadedFile;
 use Inhere\Http\Uri;
-
 use Psr\Http\Message\ResponseInterface;
-use Swoole\Http\Response as SwResponse;
 use Swoole\Http\Request as SwRequest;
+use Swoole\Http\Response as SwResponse;
 
 /**
  * Class Psr7Http
- * @package SwoKit\Http\Server\Util
+ * @package Swokit\Http\Server\Util
  */
 class Psr7Http
 {

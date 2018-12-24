@@ -6,17 +6,17 @@
  * Time: 16:04
  */
 
-namespace SwoKit\Http\Server;
+namespace Swokit\Http\Server;
 
 use Inhere\Console\Utils\Show;
 use Inhere\Library\Traits\OptionsTrait;
-use SwoKit\Http\Server\Util\AssetProcessor;
 use Inhere\Server\Server;
-// use Inhere\Server\Traits\HttpServerTrait;
-
 use Psr\Log\LogLevel;
+use Swokit\Http\Server\Util\AssetProcessor;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
+
+// use Inhere\Server\Traits\HttpServerTrait;
 
 /*
 
@@ -112,7 +112,8 @@ abstract class HttpServer extends Server implements HttpServerInterface
      * @param Response $response
      */
     public function beforeRequest(Request $request, Response $response)
-    {}
+    {
+    }
 
     /**
      * 处理http请求
@@ -174,7 +175,8 @@ abstract class HttpServer extends Server implements HttpServerInterface
      * @param Response $response
      */
     protected function afterRequest(Request $request, Response $response)
-    {}
+    {
+    }
 
     /**
      * @param Response $response

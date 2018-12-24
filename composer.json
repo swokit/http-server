@@ -2,7 +2,11 @@
   "name": "swokit/http-server",
   "type": "library",
   "description": "some http server tool library of the swoole",
-  "keywords": ["library","tool","php"],
+  "keywords": [
+    "library",
+    "tool",
+    "php"
+  ],
   "homepage": "https://github.com/swokit/http-server",
   "license": "MIT",
   "authors": [
@@ -20,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "SwoKit\\Http\\Server\\" : "src/"
+      "Swokit\\Http\\Server\\": "src/"
     }
   },
   "suggest": {

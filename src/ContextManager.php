@@ -6,15 +6,15 @@
  * Time: 11:03
  */
 
-namespace SwoKit\Http\Server;
+namespace Swokit\Http\Server;
 
-use SwoKit\Util\Coroutine;
+use Swokit\Util\Coroutine;
 
 /**
  * Class ContextManager
- * @package SwoKit\Http\Server
+ * @package Swokit\Http\Server
  */
-class ContextManager extends \SwoKit\Context\ContextManager
+class ContextManager extends \Swokit\Context\ContextManager
 {
     /**
      * @return int|string

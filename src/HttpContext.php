@@ -6,24 +6,23 @@
  * Time: 15:16
  */
 
-namespace SwoKit\Http\Server;
+namespace Swokit\Http\Server;
 
 use Inhere\Http\Request;
 use Inhere\Http\Response;
+use Swokit\Context\AbstractContext;
+use Swokit\Http\Server\Util\Psr7Http;
+use Swokit\Util\Coroutine;
 use Swoole\Http\Request as SwRequest;
 use Swoole\Http\Response as SwResponse;
 
-use SwoKit\Context\AbstractContext;
-use SwoKit\Http\Server\Util\Psr7Http;
-use SwoKit\Util\Coroutine;
-
 /**
  * Class HttpContext
- * @package SwoKit\Http\Server;
+ * @package Swokit\Http\Server;
  */
 class HttpContext extends AbstractContext
 {
-    /** @var array  */
+    /** @var array */
     private static $dataTypes = [
         'html' => 'text/html',
         'txt' => 'text/plain',
