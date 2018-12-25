@@ -8,8 +8,8 @@
 
 namespace Swokit\Http\Server;
 
-use Inhere\Http\Request;
-use Inhere\Http\Response;
+use PhpComp\Http\Message\Request;
+use PhpComp\Http\Message\Response;
 use Swokit\Context\AbstractContext;
 use Swokit\Http\Server\Util\Psr7Http;
 use Swokit\Util\Coroutine;
