@@ -10,13 +10,13 @@ namespace Swokit\Http\Server;
 
 use Inhere\Console\Utils\Show;
 use Inhere\Library\Traits\OptionsTrait;
-use Inhere\Server\Server;
+use Swokit\Server\Server;
 use Psr\Log\LogLevel;
 use Swokit\Http\Server\Util\AssetProcessor;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-// use Inhere\Server\Traits\HttpServerTrait;
+// use Swokit\Server\Traits\HttpServerTrait;
 
 /*
 
@@ -35,7 +35,7 @@ http config:
     // SWOOLE_PROCESS 业务代码在Worker进程中执行 SWOOLE_BASE 业务代码在Reactor进程中直接执行
     'mode' => 'process', // 'process' 'base'
 
-    'event_handler' => \Inhere\Server\handlers\HttpServerHandler::class,
+    'event_handler' => \Swokit\Server\handlers\HttpServerHandler::class,
     'event_list' => [ '' ]
 ],
 'options' => [
@@ -46,7 +46,7 @@ http config:
 
 /**
  * Class HttpServerHandler
- * @package Inhere\Server\handlers
+ * @package Swokit\Server\handlers
  */
 abstract class HttpServer extends Server implements HttpServerInterface
 {
