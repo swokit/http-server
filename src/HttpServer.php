@@ -10,6 +10,8 @@ namespace Swokit\Http\Server;
 
 use Inhere\Console\Utils\Show;
 use Inhere\Library\Traits\OptionsTrait;
+use Psr\Http\Server\RequestHandlerInterface;
+use Swokit\Http\Server\Util\Psr7Http;
 use Swokit\Server\Server;
 use Psr\Log\LogLevel;
 use Swokit\Http\Server\Util\AssetProcessor;
@@ -48,7 +50,7 @@ http config:
  * Class HttpServerHandler
  * @package Swokit\Server\handlers
  */
-abstract class HttpServer extends Server implements HttpServerInterface
+class HttpServer extends Server implements HttpServerInterface
 {
     use OptionsTrait;
 
@@ -57,6 +59,11 @@ abstract class HttpServer extends Server implements HttpServerInterface
      * @var AssetProcessor
      */
     protected $staticAccessHandler;
+
+    /**
+     * @var RequestHandlerInterface
+     */
+    protected $requestHandler;
 
     /**
      * @var array
@@ -97,6 +104,20 @@ abstract class HttpServer extends Server implements HttpServerInterface
     }
 
     /**
+     * @param string $host
+     * @param int $port
+     */
+    public function Listen(string $host = 'localhost', int $port = 9501)
+    {
+        $this->setServerSettings([
+            'host' => $host,
+            'port' => $port,
+        ]);
+
+        $this->start();
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function beforeServerStart()
@@ -110,8 +131,9 @@ abstract class HttpServer extends Server implements HttpServerInterface
     /**
      * @param Request $request
      * @param Response $response
+     * @return bool
      */
-    public function beforeRequest(Request $request, Response $response)
+    public function beforeRequest(Request $request, Response $response): bool
     {
     }
 
@@ -132,7 +154,7 @@ abstract class HttpServer extends Server implements HttpServerInterface
             return $response->end('+PONG' . PHP_EOL);
         }
 
-        if (strtolower($uri) === '/favicon.ico' && $this->getOption('ignoreFavicon')) {
+        if (\strtolower($uri) === '/favicon.ico' && $this->getOption('ignoreFavicon')) {
             return $response->end('+ICON');
         }
 
@@ -154,9 +176,13 @@ abstract class HttpServer extends Server implements HttpServerInterface
         }
 
         // handle the Dynamic Request
-        $this->handleRequest($request, $response);
+        $psr7Req = Psr7Http::createServerRequest($request, $response);
+        $psr7Res = ($this->requestHandler)($psr7Req);
 
-        // end
+        // respond to client
+        Psr7Http::respond($psr7Res, $response);
+
+        // after
         $endTime = microtime(true);
         $this->log(sprintf(
             'request ended, start time=%s, current time=%s, runtime=%s ms',
@@ -166,7 +192,6 @@ abstract class HttpServer extends Server implements HttpServerInterface
         ]);
 
         $this->afterRequest($request, $response);
-
         return true;
     }
 
@@ -211,6 +236,22 @@ abstract class HttpServer extends Server implements HttpServerInterface
 
         Show::title('some options for the http server');
         Show::mList($this->options);
+    }
+
+    /**
+     * @return RequestHandlerInterface
+     */
+    public function getRequestHandler(): RequestHandlerInterface
+    {
+        return $this->requestHandler;
+    }
+
+    /**
+     * @param RequestHandlerInterface $requestHandler
+     */
+    public function setRequestHandler(RequestHandlerInterface $requestHandler): void
+    {
+        $this->requestHandler = $requestHandler;
     }
 
 }

@@ -8,10 +8,10 @@
 
 namespace Swokit\Http\Server\Util;
 
-use Inhere\Http\Response;
-use Inhere\Http\ServerRequest;
-use Inhere\Http\UploadedFile;
-use Inhere\Http\Uri;
+use PhpComp\Http\Message\Response;
+use PhpComp\Http\Message\ServerRequest;
+use PhpComp\Http\Message\UploadedFile;
+use PhpComp\Http\Message\Uri;
 use Psr\Http\Message\ResponseInterface;
 use Swoole\Http\Request as SwRequest;
 use Swoole\Http\Response as SwResponse;
@@ -22,57 +22,61 @@ use Swoole\Http\Response as SwResponse;
  */
 class Psr7Http
 {
+    public const ATTRIBUTE_FD = '__fd';
+    public const ATTRIBUTE_REQ = '__sw_req';
+    public const ATTRIBUTE_RES = '__sw_res';
+
     /**
-     * @param SwRequest $swRequest
+     * @param \Swoole\Http\Request $swReq
+     * @param \Swoole\Http\Response $swRes
      * @return ServerRequest
      */
-    public static function createServerRequest(SwRequest $swRequest)
+    public static function createServerRequest(SwRequest $swReq, SwResponse $swRes)
     {
-        $uri = $swRequest->server['request_uri'];
-        $method = $swRequest->server['request_method'];
-        $request = new ServerRequest($method, Uri::createFromString($uri));
+        $uri = $swReq->server['request_uri'];
+        $method = $swReq->server['request_method'];
+        $psr7req = new ServerRequest($method, Uri::createFromString($uri));
 
         // add attribute data
-        $request->setAttribute('_fd', $swRequest->fd);
-        $request->setAttribute('_swReq', $swRequest);
+        $psr7req->setAttribute(self::ATTRIBUTE_FD, $swReq->fd);
+        $psr7req->setAttribute(self::ATTRIBUTE_REQ, $swReq);
+        $psr7req->setAttribute(self::ATTRIBUTE_RES, $swRes);
 
         // GET data
-        if (isset($swRequest->get)) {
-            $request->setQueryParams($swRequest->get);
+        if (!empty($swReq->get)) {
+            $psr7req->setQueryParams($swReq->get);
         }
 
         // POST data
-        if (isset($swRequest->post)) {
-            $request->setParsedBody($swRequest->post);
+        if (!empty($swReq->post)) {
+            $psr7req->setParsedBody($swReq->post);
         }
 
-        // cookie data
-        if (isset($swRequest->cookie)) {
-            $request->setCookies($swRequest->cookie);
+        // Cookies data
+        if (!empty($swReq->cookie)) {
+            $psr7req->setCookies($swReq->cookie);
         }
 
         // FILES data
-        if (isset($swRequest->files)) {
-            $request->setUploadedFiles(UploadedFile::parseUploadedFiles($swRequest->files));
+        if (!empty($swReq->files)) {
+            $psr7req->setUploadedFiles(UploadedFile::parseUploadedFiles($swReq->files));
         }
 
         // SERVER data
-        $serverData = array_change_key_case($swRequest->server, CASE_UPPER);
+        $serverData = \array_change_key_case($swReq->server, \CASE_UPPER);
 
-        if ($swRequest->header) {
-            // headers
-            $request->setHeaders($swRequest->header);
+        if ($swReq->header) { // headers
+            $psr7req->setHeaders($swReq->header);
 
             // 将 HTTP 头信息赋值给 $serverData
-            foreach ((array)$swRequest->header as $key => $value) {
-                $_key = 'HTTP_' . strtoupper(str_replace('-', '_', $key));
+            foreach ((array)$swReq->header as $key => $value) {
+                $_key = 'HTTP_' . \strtoupper(\str_replace('-', '_', $key));
                 $serverData[$_key] = $value;
             }
         }
 
-        $request->setServerParams($serverData);
-
-        return $request;
+        $psr7req->setServerParams($serverData);
+        return $psr7req;
     }
 
     /**
@@ -81,36 +85,38 @@ class Psr7Http
      */
     public static function createResponse(array $headers = null)
     {
-        // $headers = ['Content-Type' => 'text/html; charset=' . \Sws::get('config')->get('charset', 'UTF-8')];
+        // $headers = [
+        //   'Content-Type' => 'text/html; charset=' . \Sws::get('config')->get('charset', 'UTF-8')
+        //];
 
         return new Response(200, $headers);
     }
 
     /**
-     * @param Response|ResponseInterface $response
+     * @param Response|ResponseInterface $psr7res
      * @param SwResponse $swResponse
      * @param bool $send
      * @return SwResponse|mixed
      */
-    public static function respond(Response $response, SwResponse $swResponse = null, $send = true)
+    public static function respond(Response $psr7res, SwResponse $swResponse = null, bool $send = true)
     {
         $swResponse = $swResponse ?: new SwResponse();
 
         // set http status
-        $swResponse->status($response->getStatus());
+        $swResponse->status($psr7res->getStatus());
 
         // set headers
-        foreach ($response->getHeadersObject()->getLines() as $name => $value) {
+        foreach ($psr7res->getHeadersObject()->getLines() as $name => $value) {
             $swResponse->header($name, $value);
         }
 
         // set cookies
-        foreach ($response->getCookies()->toHeaders() as $value) {
+        foreach ($psr7res->getCookies()->toHeaders() as $value) {
             $swResponse->header('Set-Cookie', $value);
         }
 
         // write content
-        if ($body = (string)$response->getBody()) {
+        if ($body = (string)$psr7res->getBody()) {
             $swResponse->write($body);
         }
 
