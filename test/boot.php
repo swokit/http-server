@@ -16,7 +16,7 @@ $map = [
     'Swokit\Http\Server\\' => dirname(__DIR__) . '/src',
 ];
 
-spl_autoload_register(function ($class) use ($map) {
+\spl_autoload_register(function ($class) use ($map) {
     foreach ($map as $np => $dir) {
         if (0 === strpos($class, $np)) {
             $path = str_replace('\\', '/', substr($class, strlen($np)));

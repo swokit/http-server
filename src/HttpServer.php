@@ -50,7 +50,7 @@ http config:
  * Class HttpServerHandler
  * @package Swokit\Server\handlers
  */
-class HttpServer extends Server implements HttpServerInterface
+class HttpServer extends Server
 {
     use OptionsTrait;
 
@@ -107,7 +107,7 @@ class HttpServer extends Server implements HttpServerInterface
      * @param string $host
      * @param int $port
      */
-    public function Listen(string $host = 'localhost', int $port = 9501)
+    public function listen(string $host = 'localhost', int $port = 9501)
     {
         $this->setServerSettings([
             'host' => $host,

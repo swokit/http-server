@@ -13,9 +13,9 @@ $http = new HttpServer([
     // 
 ]);
 
-$http->setRequestHandler(ClosureWrapper::create(function($r ServerRequestInterface): ResponseInterface {
+$http->setRequestHandler(ClosureWrapper::create(function(ServerRequestInterface $r): ResponseInterface {
     $psr7res = HttpFactory::createResponse();
-    $psr7res->write('hello');
+    $psr7res->write('hello. URI: '. (string)$r->getUri());
     
     return $psr7res;
 }));
