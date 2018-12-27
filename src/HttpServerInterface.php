@@ -17,5 +17,5 @@ use Swoole\Http\Response;
  */
 interface HttpServerInterface
 {
-    public function handleRequest(Request $request, Response $response);
+    public function onRequest(Request $request, Response $response);
 }

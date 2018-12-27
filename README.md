@@ -20,7 +20,7 @@ $http->setRequestHandler(ClosureWrapper::create(function(ServerRequestInterface 
     return $psr7res;
 }));
 
-$http->listen();
+$http->run();
 ```
 
 ## license

@@ -14,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LogLevel;
 use Swokit\Http\Server\Util\AssetProcessor;
 use Swokit\Http\Server\Util\Psr7Http;
-use Swokit\Server\Server;
+use Swokit\Server\KitServer;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
@@ -50,7 +50,7 @@ http config:
  * Class HttpServerHandler
  * @package Swokit\Server\handlers
  */
-class HttpServer extends Server
+class HttpServer extends KitServer implements HttpServerInterface
 {
     use OptionsTrait;
 
@@ -63,7 +63,7 @@ class HttpServer extends Server
     /**
      * @var RequestHandlerInterface
      */
-    protected $requestHandler;
+    protected $handler;
 
     /**
      * @var array
@@ -107,7 +107,7 @@ class HttpServer extends Server
      * @param string $host
      * @param int $port
      */
-    public function listen(string $host = 'localhost', int $port = 9501)
+    public function run(string $host = 'localhost', int $port = 9501)
     {
         $this->setServerSettings([
             'host' => $host,
@@ -135,27 +135,29 @@ class HttpServer extends Server
      */
     public function beforeRequest(Request $request, Response $response): bool
     {
+        return true;
     }
 
     /**
      * 处理http请求
      * @param  Request $request
      * @param  Response $response
-     * @return bool|mixed
      */
     public function onRequest(Request $request, Response $response)
     {
         $uri = $request->server['request_uri'];
-        $startTime = microtime(true);
-        $request->server['request_memory'] = memory_get_usage(true);
+        $startTime = \microtime(true);
+        $request->server['request_memory'] = \memory_get_usage(true);
 
         // test: `curl 127.0.0.1:9501/ping`
         if ($uri === '/ping') {
-            return $response->end('+PONG' . PHP_EOL);
+            $response->end('+PONG');
+            return;
         }
 
         if (\strtolower($uri) === '/favicon.ico' && $this->getOption('ignoreFavicon')) {
-            return $response->end('+ICON');
+            $response->end('+ICON');
+            return;
         }
 
         $reqTime = $request->server['request_time_float'];
@@ -167,7 +169,7 @@ class HttpServer extends Server
         if ($stHandler = $this->staticAccessHandler) {
             if ($stHandler->handle($request, $response, $uri)) {
                 $this->log("Access asset: $uri");
-                return true;
+                return;
             }
 
             if ($error = $stHandler->getError()) {
@@ -175,9 +177,14 @@ class HttpServer extends Server
             }
         }
 
+        if (!$requestHandler = $this->handler) {
+            $response->end('No Handler');
+            return;
+        }
+
         // handle the Dynamic Request
         $psr7Req = Psr7Http::createServerRequest($request, $response);
-        $psr7Res = ($this->requestHandler)($psr7Req);
+        $psr7Res = $requestHandler->handle($psr7Req);
 
         // respond to client
         Psr7Http::respond($psr7Res, $response);
@@ -192,7 +199,6 @@ class HttpServer extends Server
         ]);
 
         $this->afterRequest($request, $response);
-        return true;
     }
 
     /**
@@ -241,17 +247,17 @@ class HttpServer extends Server
     /**
      * @return RequestHandlerInterface
      */
-    public function getRequestHandler(): RequestHandlerInterface
+    public function getHandler(): RequestHandlerInterface
     {
-        return $this->requestHandler;
+        return $this->handler;
     }
 
     /**
-     * @param RequestHandlerInterface $requestHandler
+     * @param RequestHandlerInterface $handler
      */
-    public function setRequestHandler(RequestHandlerInterface $requestHandler): void
+    public function setHandler(RequestHandlerInterface $handler): void
     {
-        $this->requestHandler = $requestHandler;
+        $this->handler = $handler;
     }
 
 }
