@@ -122,7 +122,7 @@ class AssetProcessor
      * @param string $uri
      * @return bool
      */
-    public function handle(Request $request, Response $response, $uri = null)
+    public function handle(Request $request, Response $response, $uri = null): bool
     {
         $uri = $uri ?: $request->server['request_uri'];
         $path = parse_url($uri, PHP_URL_PATH);
@@ -170,7 +170,7 @@ class AssetProcessor
         $urlOther = $arr[1];
 
         // $assetDir is absolute path ?
-        $this->file = $assetDir{0} === '/' ? "$assetDir/$urlOther" : "$basePath/$assetDir/$urlOther";
+        $this->file = strpos($assetDir, '/') === 0 ? "$assetDir/$urlOther" : "$basePath/$assetDir/$urlOther";
 
         if (is_file($this->file)) {
             // 必须要有内容类型
@@ -206,7 +206,7 @@ class AssetProcessor
     /**
      * @param bool $enable
      */
-    public function setEnable($enable)
+    public function setEnable($enable): void
     {
         $this->enable = (bool)$enable;
     }
@@ -214,7 +214,7 @@ class AssetProcessor
     /**
      * @return array
      */
-    public static function getAllowedExt()
+    public static function getAllowedExt(): array
     {
         if (null === self::$allowedExt) {
             self::$allowedExt = array_keys(self::$mimeTypes);
@@ -234,7 +234,7 @@ class AssetProcessor
     /**
      * @param array $mimeTypes
      */
-    public static function setMimeTypes(array $mimeTypes)
+    public static function setMimeTypes(array $mimeTypes): void
     {
         self::$mimeTypes = $mimeTypes;
     }
@@ -242,7 +242,7 @@ class AssetProcessor
     /**
      * @param array $mimeTypes
      */
-    public static function addMimeTypes(array $mimeTypes)
+    public static function addMimeTypes(array $mimeTypes): void
     {
         self::$mimeTypes = array_merge(self::$mimeTypes, $mimeTypes);
     }
@@ -258,7 +258,7 @@ class AssetProcessor
     /**
      * @param mixed $basePath
      */
-    public function setBasePath($basePath)
+    public function setBasePath($basePath): void
     {
         $this->basePath = $basePath;
     }
@@ -274,7 +274,7 @@ class AssetProcessor
     /**
      * @param array $ext
      */
-    public function setExt(array $ext)
+    public function setExt(array $ext): void
     {
         $this->ext = $ext;
     }
@@ -290,7 +290,7 @@ class AssetProcessor
     /**
      * @param array $dirMap
      */
-    public function setDirMap(array $dirMap)
+    public function setDirMap(array $dirMap): void
     {
         $this->dirMap = $dirMap;
     }
@@ -298,7 +298,7 @@ class AssetProcessor
     /**
      * @return string
      */
-    public function getError()
+    public function getError(): string
     {
         return $this->error;
     }
@@ -306,7 +306,7 @@ class AssetProcessor
     /**
      * @return string
      */
-    public function getFile()
+    public function getFile(): string
     {
         return $this->file;
     }

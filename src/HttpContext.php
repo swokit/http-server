@@ -90,23 +90,23 @@ class HttpContext extends AbstractContext
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function setRequestResponse(SwRequest $swRequest, SwResponse $swResponse)
+    public function setRequestResponse(SwRequest $swRequest, SwResponse $swResponse): void
     {
-        $this->request = Psr7Http::createServerRequest($swRequest);
+        $this->request = Psr7Http::createServerRequest($swRequest, $swResponse);
         $this->response = Psr7Http::createResponse();
 
         $this->swRequest = $swRequest;
         $this->swResponse = $swResponse;
     }
 
-    protected function init()
+    protected function init(): void
     {
     }
 
     /**
      * destroy
      */
-    public function destroy()
+    public function destroy(): void
     {
         // \Sws::getCtxManager()->del($this->getId());
         parent::destroy();
@@ -133,7 +133,7 @@ class HttpContext extends AbstractContext
     /**
      * @param Request $request
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): void
     {
         $this->request = $request;
     }
@@ -149,7 +149,7 @@ class HttpContext extends AbstractContext
     /**
      * @param Response $response
      */
-    public function setResponse(Response $response)
+    public function setResponse(Response $response): void
     {
         $this->response = $response;
     }
@@ -165,7 +165,7 @@ class HttpContext extends AbstractContext
     /**
      * @param SwRequest $swRequest
      */
-    public function setSwRequest(SwRequest $swRequest)
+    public function setSwRequest(SwRequest $swRequest): void
     {
         $this->swRequest = $swRequest;
     }
@@ -181,7 +181,7 @@ class HttpContext extends AbstractContext
     /**
      * @param SwResponse $swResponse
      */
-    public function setSwResponse(SwResponse $swResponse)
+    public function setSwResponse(SwResponse $swResponse): void
     {
         $this->swResponse = $swResponse;
     }

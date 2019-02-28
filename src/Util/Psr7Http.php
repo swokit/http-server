@@ -31,7 +31,7 @@ class Psr7Http
      * @param \Swoole\Http\Response $swRes
      * @return ServerRequest
      */
-    public static function createServerRequest(SwRequest $swReq, SwResponse $swRes)
+    public static function createServerRequest(SwRequest $swReq, SwResponse $swRes): ServerRequest
     {
         $uri = $swReq->server['request_uri'];
         $method = $swReq->server['request_method'];
@@ -83,7 +83,7 @@ class Psr7Http
      * @param null|array $headers
      * @return Response
      */
-    public static function createResponse(array $headers = null)
+    public static function createResponse(array $headers = null): Response
     {
         // $headers = [
         //   'Content-Type' => 'text/html; charset=' . \Sws::get('config')->get('charset', 'UTF-8')

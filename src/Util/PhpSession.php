@@ -45,7 +45,7 @@ class PhpSession
      * @param Request $request
      * @param Response $response
      */
-    public function start($request, $response)
+    public function start($request, $response): void
     {
         // session
         $opts = $this->getOption('session');
@@ -75,7 +75,7 @@ class PhpSession
         // $this->log("session name: {$name}, session id(cookie): {$sid}, session id: " . session_id());
     }
 
-    public function close()
+    public function close(): void
     {
         // if started session by `session_start()`, call `session_write_close()` is required.
         if ($this->getOption('start_session', false)) {

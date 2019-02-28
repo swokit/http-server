@@ -8,7 +8,7 @@
 
 namespace Swokit\Http\Server;
 
-use Inhere\Console\Utils\Show;
+use Inhere\Console\Util\Show;
 use Inhere\Library\Traits\OptionsTrait;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LogLevel;
@@ -120,7 +120,7 @@ class HttpServer extends KitServer implements HttpServerInterface
     /**
      * {@inheritDoc}
      */
-    protected function beforeServerStart()
+    protected function beforeServerStart(): void
     {
         if ($this->getOption('enableStatic')) {
             $opts = $this->getOption('staticSettings');
@@ -143,7 +143,7 @@ class HttpServer extends KitServer implements HttpServerInterface
      * @param  Request $request
      * @param  Response $response
      */
-    public function onRequest(Request $request, Response $response)
+    public function onRequest(Request $request, Response $response): void
     {
         $uri = $request->server['request_uri'];
         $startTime = \microtime(true);
@@ -236,7 +236,7 @@ class HttpServer extends KitServer implements HttpServerInterface
         return false;
     }
 
-    public function info()
+    public function info(): void
     {
         parent::info();
 
