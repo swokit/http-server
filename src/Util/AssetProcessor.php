@@ -22,32 +22,32 @@ class AssetProcessor
      * @var array
      */
     public static $mimeTypes = [
-        'bmp' => 'image/bmp',
-        'css' => 'text/css',
-        'csv' => 'text/csv',
-        'eot' => 'application/vnd.ms-fontobject',
-        'exe' => 'application/octet-stream',
-        'flv' => 'video/x-flv',
-        'jpe' => 'image/jpeg',
-        'jpg' => 'image/jpeg',
-        'jpeg' => 'image/jpeg',
-        'js' => 'application/javascript',
-        'json' => 'application/json',
-        'gif' => 'image/gif',
-        'ico' => 'image/x-icon',
-        'png' => 'image/png',
-        'svg' => 'image/svg+xml',
-        'woff' => 'application/font-woff',
-        'woff2' => 'application/font-woff2',
-        'htm' => 'text/html',
-        'html' => 'text/html',
-        'md' => 'text/plain',
+        'bmp'      => 'image/bmp',
+        'css'      => 'text/css',
+        'csv'      => 'text/csv',
+        'eot'      => 'application/vnd.ms-fontobject',
+        'exe'      => 'application/octet-stream',
+        'flv'      => 'video/x-flv',
+        'jpe'      => 'image/jpeg',
+        'jpg'      => 'image/jpeg',
+        'jpeg'     => 'image/jpeg',
+        'js'       => 'application/javascript',
+        'json'     => 'application/json',
+        'gif'      => 'image/gif',
+        'ico'      => 'image/x-icon',
+        'png'      => 'image/png',
+        'svg'      => 'image/svg+xml',
+        'woff'     => 'application/font-woff',
+        'woff2'    => 'application/font-woff2',
+        'htm'      => 'text/html',
+        'html'     => 'text/html',
+        'md'       => 'text/plain',
         'markdown' => 'text/plain',
-        'rst' => 'text/plain',
-        'ttf' => 'application/x-font-ttf',
-        'txt' => 'text/plain',
-        'xml' => 'application/xml',
-        'zip' => 'application/zip',
+        'rst'      => 'text/plain',
+        'ttf'      => 'application/x-font-ttf',
+        'txt'      => 'text/plain',
+        'xml'      => 'application/xml',
+        'zip'      => 'application/zip',
     ];
 
     /**
@@ -77,7 +77,7 @@ class AssetProcessor
      */
     private $dirMap = [
         // 'url prefix' => 'assets dir(is relative the basePath)',
-        '/assets' => 'web/assets',
+        '/assets'  => 'web/assets',
         '/uploads' => 'web/uploads'
     ];
 
@@ -105,9 +105,9 @@ class AssetProcessor
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param null $uri
+     * @param null     $uri
      * @return bool
      */
     public function __invoke(Request $request, Response $response, $uri = null)
@@ -117,14 +117,14 @@ class AssetProcessor
 
     /**
      * handle Static Access 处理静态资源请求
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param string $uri
+     * @param string   $uri
      * @return bool
      */
     public function handle(Request $request, Response $response, $uri = null): bool
     {
-        $uri = $uri ?: $request->server['request_uri'];
+        $uri  = $uri ?: $request->server['request_uri'];
         $path = parse_url($uri, PHP_URL_PATH);
 
         // 没有资源处理配置 || 没有任何后缀 返回交给php继续处理
@@ -152,7 +152,7 @@ class AssetProcessor
 
         $assetDir = '';
         $urlBegin = '/' . $arr[0]; // e.g /assets
-        $matched = false;
+        $matched  = false;
 
         foreach ($this->dirMap as $urlMatch => $assetDir) {
             // match success

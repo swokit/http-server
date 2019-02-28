@@ -25,14 +25,14 @@ class HttpContext extends AbstractContext
     /** @var array */
     private static $dataTypes = [
         'html' => 'text/html',
-        'txt' => 'text/plain',
-        'js' => 'application/javascript',
-        'css' => 'text/css',
+        'txt'  => 'text/plain',
+        'js'   => 'application/javascript',
+        'css'  => 'text/css',
         'json' => 'application/json',
-        'xml' => 'text/xml',
-        'rdf' => 'application/rdf+xml',
+        'xml'  => 'text/xml',
+        'rdf'  => 'application/rdf+xml',
         'atom' => 'application/atom+xml',
-        'rss' => 'application/rss+xml',
+        'rss'  => 'application/rss+xml',
         'form' => 'application/x-www-form-urlencoded'
     ];
 
@@ -57,7 +57,7 @@ class HttpContext extends AbstractContext
     public $swResponse;
 
     /**
-     * @param SwRequest $swRequest
+     * @param SwRequest  $swRequest
      * @param SwResponse $swResponse
      * @return static
      */
@@ -85,17 +85,17 @@ class HttpContext extends AbstractContext
     }
 
     /**
-     * @param SwRequest $swRequest
+     * @param SwRequest  $swRequest
      * @param SwResponse $swResponse
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
     public function setRequestResponse(SwRequest $swRequest, SwResponse $swResponse): void
     {
-        $this->request = Psr7Http::createServerRequest($swRequest, $swResponse);
+        $this->request  = Psr7Http::createServerRequest($swRequest, $swResponse);
         $this->response = Psr7Http::createResponse();
 
-        $this->swRequest = $swRequest;
+        $this->swRequest  = $swRequest;
         $this->swResponse = $swResponse;
     }
 

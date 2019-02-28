@@ -22,19 +22,19 @@ use Swoole\Http\Response as SwResponse;
  */
 class Psr7Http
 {
-    public const ATTRIBUTE_FD = '__fd';
+    public const ATTRIBUTE_FD  = '__fd';
     public const ATTRIBUTE_REQ = '__sw_req';
     public const ATTRIBUTE_RES = '__sw_res';
 
     /**
-     * @param \Swoole\Http\Request $swReq
+     * @param \Swoole\Http\Request  $swReq
      * @param \Swoole\Http\Response $swRes
      * @return ServerRequest
      */
     public static function createServerRequest(SwRequest $swReq, SwResponse $swRes): ServerRequest
     {
-        $uri = $swReq->server['request_uri'];
-        $method = $swReq->server['request_method'];
+        $uri     = $swReq->server['request_uri'];
+        $method  = $swReq->server['request_method'];
         $psr7req = new ServerRequest($method, Uri::createFromString($uri));
 
         // add attribute data
@@ -70,7 +70,7 @@ class Psr7Http
 
             // 将 HTTP 头信息赋值给 $serverData
             foreach ((array)$swReq->header as $key => $value) {
-                $_key = 'HTTP_' . \strtoupper(\str_replace('-', '_', $key));
+                $_key              = 'HTTP_' . \strtoupper(\str_replace('-', '_', $key));
                 $serverData[$_key] = $value;
             }
         }
@@ -94,8 +94,8 @@ class Psr7Http
 
     /**
      * @param Response|ResponseInterface $psr7res
-     * @param SwResponse $swResponse
-     * @param bool $send
+     * @param SwResponse                 $swResponse
+     * @param bool                       $send
      * @return SwResponse|mixed
      */
     public static function respond(Response $psr7res, SwResponse $swResponse = null, bool $send = true)

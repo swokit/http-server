@@ -30,7 +30,7 @@ class ClosureWrapper implements RequestHandlerInterface
      */
     public static function create(\Closure $closureHandler): RequestHandlerInterface
     {
-        $self = new self();
+        $self          = new self();
         $self->closure = $closureHandler;
         return $self;
     }

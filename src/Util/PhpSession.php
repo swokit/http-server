@@ -27,14 +27,14 @@ class PhpSession
     protected $options = [
         'start_session' => false,
 
-        'save_path' => '', // app_session
-        'name' => 'php_session', // app_session
+        'save_path'       => '', // app_session
+        'name'            => 'php_session', // app_session
 
         // 设置 cookie 的有效时间为 30 minute
         'cookie_lifetime' => 1800,
-        'cookie_domain' => '',
-        'cookie_path' => '/',
-        'cookie_secure' => false,
+        'cookie_domain'   => '',
+        'cookie_path'     => '/',
+        'cookie_secure'   => false,
         'cookie_httponly' => false,
 
         'cache_expire' => 1800,
@@ -42,7 +42,7 @@ class PhpSession
 
     /**
      * startSession
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
      */
     public function start($request, $response): void

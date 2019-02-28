@@ -72,16 +72,16 @@ class HttpServer extends KitServer implements HttpServerInterface
         'ignoreFavicon' => false,
 
         // @link https://wiki.swoole.com/wiki/page/410.html
-        'openGzip' => true,
-        'gzipLevel' => 1, // allow 1 - 9
+        'openGzip'      => true,
+        'gzipLevel'     => 1, // allow 1 - 9
 
-        'enableStatic' => false,
+        'enableStatic'   => false,
         'staticSettings' => [
             'basePath' => '',
-            'ext' => [],
-            'dirMap' => [
+            'ext'      => [],
+            'dirMap'   => [
                 // 'url_match' => 'assets dir',
-                '/assets' => 'web/assets',
+                '/assets'  => 'web/assets',
                 '/uploads' => 'web/uploads'
             ]
         ],
@@ -105,7 +105,7 @@ class HttpServer extends KitServer implements HttpServerInterface
 
     /**
      * @param string $host
-     * @param int $port
+     * @param int    $port
      */
     public function run(string $host = 'localhost', int $port = 9501)
     {
@@ -123,13 +123,13 @@ class HttpServer extends KitServer implements HttpServerInterface
     protected function beforeServerStart(): void
     {
         if ($this->getOption('enableStatic')) {
-            $opts = $this->getOption('staticSettings');
+            $opts                      = $this->getOption('staticSettings');
             $this->staticAccessHandler = new AssetProcessor($opts);
         }
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
      * @return bool
      */
@@ -140,13 +140,13 @@ class HttpServer extends KitServer implements HttpServerInterface
 
     /**
      * 处理http请求
-     * @param  Request $request
+     * @param  Request  $request
      * @param  Response $response
      */
     public function onRequest(Request $request, Response $response): void
     {
-        $uri = $request->server['request_uri'];
-        $startTime = \microtime(true);
+        $uri                               = $request->server['request_uri'];
+        $startTime                         = \microtime(true);
         $request->server['request_memory'] = \memory_get_usage(true);
 
         // test: `curl 127.0.0.1:9501/ping`
@@ -202,7 +202,7 @@ class HttpServer extends KitServer implements HttpServerInterface
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
      */
     protected function afterRequest(Request $request, Response $response)
@@ -211,8 +211,8 @@ class HttpServer extends KitServer implements HttpServerInterface
 
     /**
      * @param Response $response
-     * @param $url
-     * @param int $mode
+     * @param          $url
+     * @param int      $mode
      * @return mixed
      */
     public function redirect($response, $url, $mode = 302)
